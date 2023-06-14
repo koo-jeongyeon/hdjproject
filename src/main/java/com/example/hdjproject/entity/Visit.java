@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.Date;
 
@@ -18,17 +19,17 @@ public class Visit {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "HOSPITAL_ID")
+    @JoinColumn(name = "HOSPITAL_ID", nullable = false)
     private Hospital hospitalId; //병원ID
 
     @ManyToOne
-    @JoinColumn(name = "PATIENT_ID")
+    @JoinColumn(name = "PATIENT_ID", nullable = false)
     private Patient patientId; //환자ID
 
-    @Column(name = "REC_DATE")
+    @Column(name = "REC_DATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date recDate; //접수일시
 
-    @Column(name = "STATE_CODE")
+    @Column(name = "STATE_CODE", length = 10, nullable = false)
     private String stateCode; //방문상태코드
 }

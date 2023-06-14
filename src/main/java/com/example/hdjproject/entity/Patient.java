@@ -17,22 +17,22 @@ public class Patient {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HOSPITAL_ID")
+    @JoinColumn(name = "HOSPITAL_ID", nullable = false)
     private Hospital hospital;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 45, nullable = false)
     private String name; //환자명
 
-    @Column(name = "REG_NO")
+    @Column(name = "REG_NO", length = 13, nullable = false)
     private String regNo; //환자등록번호
 
-    @Column(name = "GENDER_CODE")
+    @Column(name = "GENDER_CODE", length = 10, nullable = false)
     private String genderCode; //성별코드
 
-    @Column(name = "BIRTHDAY")
+    @Column(name = "BIRTHDAY", length = 10)
     private String birthday; //생년월일
 
-    @Column(name = "PHONE")
+    @Column(name = "PHONE", length = 20)
     private String phone; //휴대전화번호
 
     @Builder
@@ -49,11 +49,12 @@ public class Patient {
     }
 
     //고유 병원별 환자등록번호
-    //병원별로 중복되지 않도록 (병원id + 날짜)
+    //병원별로 중복되지 않도록 (UTC시간 밀리세컨드 10자리 + 랜덤3자리값)
     public void uniqueRegNo() {
-        String uniqueRegNo = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        Calendar dateTime = Calendar.getInstance();
-        regNo = hospital.getId() + sdf.format(dateTime.getTime());
+        String millis = (System.currentTimeMillis() + "").substring(0,10);
+        int randomNum = (int) (Math.random() * 899) + 100;// 100~999의 범위 중 랜덤
+        System.out.println("millis" +millis);
+        System.out.println("randomNum" +randomNum);
+        regNo = millis + randomNum;
     }
 }

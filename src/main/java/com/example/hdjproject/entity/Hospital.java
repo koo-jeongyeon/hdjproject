@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Getter
 @Entity
@@ -15,12 +16,12 @@ public class Hospital {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 45, nullable = false)
     private String name; //병원명
 
-    @Column(name= "REC_NO")
+    @Column(name= "REC_NO", length = 20, nullable = false)
     private String recNo; //요양기관번호
 
-    @Column(name= "LEDGER")
+    @Column(name= "LEDGER", length = 10, nullable = false)
     private String ledger; //병원장명
 }
