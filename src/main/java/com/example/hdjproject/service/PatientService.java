@@ -8,8 +8,6 @@ import com.example.hdjproject.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Optional;
 
 @Service
@@ -27,22 +25,12 @@ public class PatientService {
         long hospitalId = patientRegistry.getHospitalId();
         Optional<Hospital> hospital = hospitalRepository.findById(hospitalId);
         Hospital hospital1Obj = hospital.orElse(null);
-        patient.setHospital(hospital1Obj);
+        patient.updateHospital(hospital1Obj);
 
         //등록번호
-        String regNo = getUniqueRegNo(hospitalId);
-        patient.setRegNo(regNo);
+        patient.uniqueRegNo();
 
         return patientRepository.save(patient);
     }
 
-    //고유 병원별 환자등록번호
-    //병원별로 중복되지 않도록 (병원id + 날짜)
-    public static String getUniqueRegNo(Long hospitalId) {
-        String uniqueRegNo = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        Calendar dateTime = Calendar.getInstance();
-        uniqueRegNo = hospitalId + sdf.format(dateTime.getTime());
-        return uniqueRegNo;
-    }
 }
