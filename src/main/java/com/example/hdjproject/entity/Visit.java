@@ -1,12 +1,15 @@
 package com.example.hdjproject.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Data
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "VISIT")
 public class Visit {
     @Id
@@ -23,6 +26,7 @@ public class Visit {
     private Patient patientId; //환자ID
 
     @Column(name = "REC_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date recDate; //접수일시
 
     @Column(name = "STATE_CODE")

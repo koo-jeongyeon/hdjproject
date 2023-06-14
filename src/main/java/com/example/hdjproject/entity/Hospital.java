@@ -1,10 +1,13 @@
 package com.example.hdjproject.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "HOSPITAL")
 public class Hospital {
     @Id

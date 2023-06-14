@@ -1,10 +1,12 @@
 package com.example.hdjproject.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "PATIENT")
 public class Patient {
     @Id
@@ -12,7 +14,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HOSPITAL_ID")
     private Hospital hospital;
 
@@ -31,4 +33,12 @@ public class Patient {
     @Column(name = "PHONE")
     private String phone; //휴대전화번호
 
+    @Builder
+    public Patient(String name, String regNo, String genderCode, String birthday, String phone){
+        this.name = name;
+        this.regNo = regNo;
+        this.genderCode = genderCode;
+        this.birthday = birthday;
+        this.phone = phone;
+    }
 }
