@@ -49,4 +49,17 @@ public class VisitController {
         return entity;
     }
 
+    /*
+     * 2023-06-15
+     * 환자방문 삭제
+     */
+    @PutMapping("/visit")
+    public ResponseEntity deleteVisit(@RequestParam long id){
+        ResponseEntity entity = null;
+
+        visitService.delete(id);
+
+        entity = new ResponseEntity<>(entity, HttpStatus.OK);
+        return entity;
+    }
 }

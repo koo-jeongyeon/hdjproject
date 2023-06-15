@@ -51,4 +51,12 @@ public class VisitService {
         return visit;
     }
 
+    public void delete(long id){
+
+        Optional<Visit> byId = visitRepository.findById(id);
+        Visit visit = byId.get();
+
+        visitRepository.delete(visit);
+    }
+
 }
