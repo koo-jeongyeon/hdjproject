@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Getter
 @Entity
@@ -37,12 +39,20 @@ public class Patient {
     @Column(name = "PHONE", length = 20)
     private String phone; //휴대전화번호
 
+    @OneToMany(mappedBy = "patient")
+    private List<Visit> visits = new ArrayList<>();
+
     @Builder
     public Patient(String name, String genderCode, String birthday, String phone){
         this.name = name;
         this.genderCode = genderCode;
         this.birthday = birthday;
         this.phone = phone;
+    }
+
+    //환자방문 추가 테스트
+    public void addVisit(Visit visit){
+        this.visits.add(visit);
     }
 
     public void updatePatient(String name, String genderCode, String birthday, String phone){

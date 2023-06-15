@@ -1,15 +1,22 @@
 package com.example.hdjproject.service;
 
+import com.example.hdjproject.entity.Code;
 import com.example.hdjproject.entity.Hospital;
 import com.example.hdjproject.entity.Patient;
+import com.example.hdjproject.entity.Visit;
 import com.example.hdjproject.model.PatientRegistry;
+import com.example.hdjproject.model.PatientResponse;
 import com.example.hdjproject.model.PatientUpdate;
+import com.example.hdjproject.model.VisitResponse;
+import com.example.hdjproject.repository.CodeRepository;
 import com.example.hdjproject.repository.HospitalRepository;
 import com.example.hdjproject.repository.PatientRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +26,7 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private final HospitalRepository hospitalRepository;
+    private final CodeRepository codeRepository;
 
     public Patient create(PatientRegistry dto){
 
@@ -58,5 +66,43 @@ public class PatientService {
         Patient patient = byId.get();
 
         patientRepository.delete(patient);
+    }
+
+    public PatientResponse selectOne(Long id){
+
+        Optional<Patient> byIdp = patientRepository.findById(id);
+        Patient patient = byIdp.get();
+
+        //성별코드
+        Optional<Code> byIdc = codeRepository.findById(patient.getGenderCode());
+        String genderCode = byIdc.get().getName();
+
+        List<VisitResponse> visitResponsesList = new ArrayList<>();
+
+        for (Visit visit: patient.getVisits()) {
+
+            //방문상태코드
+            Optional<Code> byIdvc = codeRepository.findById(visit.getStateCode());
+            String stateCode = byIdvc.get().getName();
+
+            VisitResponse visitResponse = VisitResponse.builder()
+                    .hospitalName(visit.getHospital().getName())
+                    .createDate(visit.getCreateDate())
+                    .state(stateCode)
+                    .build();
+
+            visitResponsesList.add(visitResponse);
+        }
+
+        PatientResponse patientResponse = PatientResponse.builder()
+                .name(patient.getName())
+                .regNo(patient.getRegNo())
+                .gender(genderCode)
+                .birthday(patient.getBirthday())
+                .phone(patient.getPhone())
+                .visits(visitResponsesList)
+                .build();
+
+        return patientResponse;
     }
 }

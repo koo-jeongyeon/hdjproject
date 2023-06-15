@@ -2,6 +2,7 @@ package com.example.hdjproject.controller;
 
 import com.example.hdjproject.entity.Patient;
 import com.example.hdjproject.model.PatientRegistry;
+import com.example.hdjproject.model.PatientResponse;
 import com.example.hdjproject.model.PatientUpdate;
 import com.example.hdjproject.service.PatientService;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,19 @@ public class PatientController {
         patientService.delete(id);
 
         entity = new ResponseEntity<>(entity, HttpStatus.OK);
+        return entity;
+    }
+    /*
+     * 2023-06-15
+     * 환자 조회
+     */
+    @GetMapping("/patient")
+    public ResponseEntity getPatient(@RequestParam long id){
+        ResponseEntity entity = null;
+
+        PatientResponse response = patientService.selectOne(id);
+
+        entity = new ResponseEntity<>(response, HttpStatus.OK);
         return entity;
     }
 }
