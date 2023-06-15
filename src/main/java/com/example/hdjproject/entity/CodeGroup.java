@@ -18,6 +18,6 @@ public class CodeGroup {
     @Column(name = "NAME", length = 10, nullable = false)
     private String name; //코드그룹명
 
-    @Column(name = "DESCRIPTION", length = 10, nullable = false)
+    @Column(name = "DESCRIPTION", length = 20, nullable = false)
     private String description; //설명
 }
