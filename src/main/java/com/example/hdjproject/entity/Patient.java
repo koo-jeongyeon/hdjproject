@@ -1,5 +1,6 @@
 package com.example.hdjproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Patient {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "HOSPITAL_ID", nullable = false)
     private Hospital hospital;
 
@@ -36,9 +38,15 @@ public class Patient {
     private String phone; //휴대전화번호
 
     @Builder
-    public Patient(String name, String regNo, String genderCode, String birthday, String phone){
+    public Patient(String name, String genderCode, String birthday, String phone){
         this.name = name;
-        this.regNo = regNo;
+        this.genderCode = genderCode;
+        this.birthday = birthday;
+        this.phone = phone;
+    }
+
+    public void updatePatient(String name, String genderCode, String birthday, String phone){
+        this.name = name;
         this.genderCode = genderCode;
         this.birthday = birthday;
         this.phone = phone;
@@ -53,8 +61,6 @@ public class Patient {
     public void uniqueRegNo() {
         String millis = (System.currentTimeMillis() + "").substring(0,10);
         int randomNum = (int) (Math.random() * 899) + 100;// 100~999의 범위 중 랜덤
-        System.out.println("millis" +millis);
-        System.out.println("randomNum" +randomNum);
         regNo = millis + randomNum;
     }
 }

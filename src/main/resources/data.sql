@@ -1,5 +1,6 @@
 insert into HOSPITAL (HOSPITAL_ID,NAME,REC_NO,LEDGER)
-values ('1','하나병원','0000','병원장');
+values ('1','하나병원','0000','병원장'),
+('2','마음병원','0010','병원장');
 
 -- insert into CODEGROUP (GROUP_TYPE,NAME,DESCRIPTION)
 -- values ('성별코드','성별코드','성별을 표시'),
