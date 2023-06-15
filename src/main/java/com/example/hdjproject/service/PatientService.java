@@ -4,10 +4,7 @@ import com.example.hdjproject.entity.Code;
 import com.example.hdjproject.entity.Hospital;
 import com.example.hdjproject.entity.Patient;
 import com.example.hdjproject.entity.Visit;
-import com.example.hdjproject.model.PatientRegistry;
-import com.example.hdjproject.model.PatientResponse;
-import com.example.hdjproject.model.PatientUpdate;
-import com.example.hdjproject.model.VisitResponse;
+import com.example.hdjproject.model.*;
 import com.example.hdjproject.repository.CodeRepository;
 import com.example.hdjproject.repository.HospitalRepository;
 import com.example.hdjproject.repository.PatientRepository;
@@ -15,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,5 +103,38 @@ public class PatientService {
                 .build();
 
         return patientResponse;
+    }
+
+    public List<PatientListResponse> selectList(){
+
+        List<Patient> patients = patientRepository.findAll();
+        List<PatientListResponse> patientList = new ArrayList<>();
+
+        for (Patient patient : patients){
+
+            //성별코드
+            Optional<Code> byIdc = codeRepository.findById(patient.getGenderCode());
+            String genderCode = byIdc.get().getName();
+
+            //최근방문일
+            List<Visit> visit = patient.getVisits();
+            LocalDateTime localDateTime = (visit.size() > 0) ?
+                    patient.getVisits().get(visit.size()-1).getCreateDate() : LocalDateTime.of(1970,1,1,0,0,0);
+
+            PatientListResponse patientListResponse = PatientListResponse.builder()
+                    .name(patient.getName())
+                    .regNo(patient.getRegNo())
+                    .gender(genderCode)
+                    .birthday(patient.getBirthday())
+                    .phone(patient.getPhone())
+                    .createDate(localDateTime)
+                    .build();
+
+            patientListResponse.updateCreateDateFormat("yyyy-mm-dd");
+            patientList.add(patientListResponse);
+
+        }
+
+        return patientList;
     }
 }

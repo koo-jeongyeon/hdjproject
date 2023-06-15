@@ -1,6 +1,7 @@
 package com.example.hdjproject.controller;
 
 import com.example.hdjproject.entity.Patient;
+import com.example.hdjproject.model.PatientListResponse;
 import com.example.hdjproject.model.PatientRegistry;
 import com.example.hdjproject.model.PatientResponse;
 import com.example.hdjproject.model.PatientUpdate;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -72,4 +75,18 @@ public class PatientController {
         entity = new ResponseEntity<>(response, HttpStatus.OK);
         return entity;
     }
+    /*
+     * 2023-06-15
+     * 환자 목록 조회
+     */
+    @GetMapping("/patients")
+    public ResponseEntity list(){
+        ResponseEntity entity = null;
+
+        List<PatientListResponse> response = patientService.selectList();
+
+        entity = new ResponseEntity<>(response, HttpStatus.OK);
+        return entity;
+    }
+
 }
