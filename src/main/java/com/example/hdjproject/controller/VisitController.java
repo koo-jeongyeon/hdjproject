@@ -53,7 +53,7 @@ public class VisitController {
      * 2023-06-15
      * 환자방문 삭제
      */
-    @PutMapping("/visit")
+    @DeleteMapping("/visit")
     public ResponseEntity deleteVisit(@RequestParam long id){
         ResponseEntity entity = null;
 
