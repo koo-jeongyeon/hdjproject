@@ -1,15 +1,16 @@
 package com.example.hdjproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "VISIT")
 public class Visit {
@@ -18,18 +19,34 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "HOSPITAL_ID", nullable = false)
-    private Hospital hospitalId; //병원ID
+    private Hospital hospital; //병원ID
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "PATIENT_ID", nullable = false)
-    private Patient patientId; //환자ID
+    private Patient patient; //환자ID
 
-    @Column(name = "REC_DATE", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date recDate; //접수일시
+    @CreatedDate
+    @Column(name = "CREATE_DATE", nullable = false, updatable = false)
+    private LocalDateTime createDate; //접수일시
 
     @Column(name = "STATE_CODE", length = 10, nullable = false)
     private String stateCode; //방문상태코드
+
+    @Builder
+    public Visit(String stateCode){
+        this.stateCode = stateCode;
+    }
+
+    public void updateHospital(Hospital hospital){
+        this.hospital = hospital;
+    }
+
+    public void updatePatient(Patient patient){
+        this.patient = patient;
+    }
+
 }

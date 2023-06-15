@@ -38,16 +38,16 @@ public class PatientService {
 
     public Patient update(PatientUpdate dto){
 
-        Optional<Patient> byId = patientRepository.findById(dto.getId());
-        Patient patient = byId.get();
+        Optional<Patient> byIdp = patientRepository.findById(dto.getId());
+        Patient patient = byIdp.get();
 
         patient.updatePatient(dto.getName(),dto.getGenderCode(),dto.getBirthday(),dto.getPhone());
 
         //병원id 업데이트
         Hospital hospital = patient.getHospital();
         if(hospital.getId() != dto.getHospitalId()){
-            Optional<Hospital> byId2 = hospitalRepository.findById(dto.getHospitalId());
-            patient.updateHospital(byId2.get());
+            Optional<Hospital> byIdh = hospitalRepository.findById(dto.getHospitalId());
+            patient.updateHospital(byIdh.get());
         }
         return patient;
     }
