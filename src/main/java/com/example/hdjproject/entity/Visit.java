@@ -49,4 +49,8 @@ public class Visit {
         this.patient = patient;
     }
 
+    public void updateStateCode(String stateCode){
+        this.stateCode = stateCode;
+    }
+
 }

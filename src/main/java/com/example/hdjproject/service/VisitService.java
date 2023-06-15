@@ -4,6 +4,7 @@ import com.example.hdjproject.entity.Hospital;
 import com.example.hdjproject.entity.Patient;
 import com.example.hdjproject.entity.Visit;
 import com.example.hdjproject.model.VisitRegistry;
+import com.example.hdjproject.model.VisitUpdate;
 import com.example.hdjproject.repository.HospitalRepository;
 import com.example.hdjproject.repository.PatientRepository;
 import com.example.hdjproject.repository.VisitRepository;
@@ -40,6 +41,14 @@ public class VisitService {
         visit.updatePatient(patient);
 
         return visitRepository.save(visit);
+    }
+
+    public Visit update(VisitUpdate dto){
+
+        Optional<Visit> byId = visitRepository.findById(dto.getId());
+        Visit visit = byId.get();
+        visit.updateStateCode(dto.getStateCode());
+        return visit;
     }
 
 }
