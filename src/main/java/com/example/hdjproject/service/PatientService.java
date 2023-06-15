@@ -51,4 +51,12 @@ public class PatientService {
         }
         return patient;
     }
+
+    public void delete(Long id){
+
+        Optional<Patient> byId = patientRepository.findById(id);
+        Patient patient = byId.get();
+
+        patientRepository.delete(patient);
+    }
 }

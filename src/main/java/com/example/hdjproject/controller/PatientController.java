@@ -45,4 +45,17 @@ public class PatientController {
         entity = new ResponseEntity<>(patient, HttpStatus.OK);
         return entity;
     }
+    /*
+     * 2023-06-15
+     * 환자 삭제
+     */
+    @DeleteMapping("/patient")
+    public ResponseEntity deletePatient(@RequestParam long id){
+        ResponseEntity entity = null;
+
+        patientService.delete(id);
+
+        entity = new ResponseEntity<>(entity, HttpStatus.OK);
+        return entity;
+    }
 }
