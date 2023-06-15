@@ -78,12 +78,15 @@ public class PatientController {
     /*
      * 2023-06-15
      * 환자 목록 조회
+     * - 동적 검색 조건 적용
      */
     @GetMapping("/patients")
-    public ResponseEntity list(){
+    public ResponseEntity list(@RequestParam(required=false) String name,
+                               @RequestParam(required=false) String reqNo,
+                               @RequestParam(required=false) String birthday){
         ResponseEntity entity = null;
 
-        List<PatientListResponse> response = patientService.selectList();
+        List<PatientListResponse> response = patientService.selectList(name,reqNo,birthday);
 
         entity = new ResponseEntity<>(response, HttpStatus.OK);
         return entity;

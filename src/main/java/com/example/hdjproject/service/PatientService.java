@@ -105,9 +105,9 @@ public class PatientService {
         return patientResponse;
     }
 
-    public List<PatientListResponse> selectList(){
+    public List<PatientListResponse> selectList(String name, String reqNo, String birthday){
 
-        List<Patient> patients = patientRepository.findAll();
+        List<Patient> patients = patientRepository.findDynamicQuery(name,reqNo,birthday);
         List<PatientListResponse> patientList = new ArrayList<>();
 
         for (Patient patient : patients){
