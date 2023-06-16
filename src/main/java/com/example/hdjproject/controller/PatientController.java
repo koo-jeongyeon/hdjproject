@@ -33,6 +33,10 @@ public class PatientController {
 
         Patient patient = patientService.create(request);
 
+        if(patient == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         entity = new ResponseEntity<>(patient, HttpStatus.OK);
         return entity;
     }

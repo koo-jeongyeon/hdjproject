@@ -3,12 +3,16 @@ package com.example.hdjproject.model;
 import com.example.hdjproject.entity.Patient;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 public class PatientRegistry {
 
+    @NonNull
     private long hospitalId; //병원id
+    @NonNull
     private String name; //환자명
+    @NonNull
     private String genderCode; //성별
     private String birthday; //생년월일
     private String phone; //휴대전화번호

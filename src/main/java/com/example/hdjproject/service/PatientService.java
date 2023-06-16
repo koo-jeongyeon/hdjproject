@@ -29,16 +29,20 @@ public class PatientService {
     @Transactional
     public Patient create(PatientRegistry dto){
 
-        Patient patient = dto.toEntity();
+        //성별코드
+        Optional<Code> byIdc = codeRepository.findById(dto.getGenderCode());
+        if(byIdc.isEmpty()) return null;
 
         //병원
-        long hospitalId = dto.getHospitalId();
-        Optional<Hospital> byId = hospitalRepository.findById(hospitalId);
-        Hospital hospital = byId.get();
-        patient.updateHospital(hospital);
+        Optional<Hospital> byIdh = hospitalRepository.findById(dto.getHospitalId());
+        if(byIdh.isEmpty()) return null;
 
+        Hospital hospital = byIdh.get();
+        Patient patient = dto.toEntity();
+        patient.updateHospital(hospital);
         //등록번호
         patient.uniqueRegNo();
+
 
         return patientRepository.save(patient);
     }
