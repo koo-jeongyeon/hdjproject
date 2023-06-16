@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class PatientService {
 
@@ -27,6 +26,7 @@ public class PatientService {
     private final HospitalRepository hospitalRepository;
     private final CodeRepository codeRepository;
 
+    @Transactional
     public Patient create(PatientRegistry dto){
 
         Patient patient = dto.toEntity();
@@ -43,6 +43,7 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
+    @Transactional
     public Patient update(PatientUpdate dto){
 
         Optional<Patient> byIdp = patientRepository.findById(dto.getId());
@@ -59,6 +60,7 @@ public class PatientService {
         return patient;
     }
 
+    @Transactional
     public void delete(Long id){
 
         Optional<Patient> byId = patientRepository.findById(id);
